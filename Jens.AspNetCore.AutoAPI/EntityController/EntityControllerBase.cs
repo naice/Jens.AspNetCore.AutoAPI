@@ -9,6 +9,7 @@ public abstract class EntityControllerBase : ControllerBase
         where TResponse : DataResponse<TEntity>, new()
     {
         var response = new TResponse();
+        response.Data ??= new List<TEntity>();
         response.Data.Add(entity);
         response.Success = true;
         return response;
@@ -19,6 +20,7 @@ public abstract class EntityControllerBase : ControllerBase
         where TResponse : DataResponse<TEntity>, new()
     {
         var response = new TResponse();
+        response.Data ??= new List<TEntity>();
         response.Data.AddRange(entities);
         response.Success = true;
         return response;

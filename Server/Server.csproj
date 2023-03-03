@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+     <InternalsVisibleTo Include="Test" />
     <ProjectReference Include="../Jens.AspNetCore.AutoAPI/Jens.AspNetCore.AutoAPI.csproj" />
     <ProjectReference Include="../Models/Models.csproj" />
   </ItemGroup>

@@ -13,8 +13,9 @@ public class Movie : IEntity
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
-[WithQCUD]
-[WithCreateOrUpdateList]
+[WithCreate]
+[WithQuery]
+[WithDelete]
 public class Actor : IEntity
 {
     public Guid Id { get; set; }
