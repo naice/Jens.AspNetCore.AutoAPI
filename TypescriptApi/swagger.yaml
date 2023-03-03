@@ -1,0 +1,762 @@
+openapi: 3.0.1
+info:
+  title: Server
+  version: '1.0'
+paths:
+  /AutoAPI/ActorQuery:
+    post:
+      tags:
+        - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ActorQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorQueryResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ActorQueryResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/ActorCreateOrUpdate:
+    post:
+      tags:
+        - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/ActorDelete:
+    post:
+      tags:
+        - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ActorDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/CastQuery:
+    post:
+      tags:
+        - Cast
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CastQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CastQueryResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CastQueryResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/CastCreateOrUpdate:
+    post:
+      tags:
+        - Cast
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/CastDelete:
+    post:
+      tags:
+        - Cast
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CastDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/MovieQuery:
+    post:
+      tags:
+        - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MovieQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieQueryResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MovieQueryResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/MovieCreateOrUpdate:
+    post:
+      tags:
+        - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/MovieDelete:
+    post:
+      tags:
+        - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MovieDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/SvenjasQuery:
+    post:
+      tags:
+        - Svenjas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SvenjasQueryResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasQueryResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasQueryResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/SvenjasCreateOrUpdate:
+    post:
+      tags:
+        - Svenjas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+  /AutoAPI/SvenjasDelete:
+    post:
+      tags:
+        - Svenjas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Svenjas'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SvenjasDataResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+components:
+  schemas:
+    Actor:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      additionalProperties: false
+    ActorDataResponse:
+      required:
+        - data
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+      additionalProperties: false
+    ActorQueryResponse:
+      required:
+        - data
+        - pagination
+        - sorting
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false
+    BadRequestResponse:
+      required:
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      additionalProperties: false
+    Cast:
+      required:
+        - actorId
+        - id
+        - movieId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+          format: uuid
+        movieId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    CastDataResponse:
+      required:
+        - data
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cast'
+      additionalProperties: false
+    CastQueryResponse:
+      required:
+        - data
+        - pagination
+        - sorting
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cast'
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false
+    Movie:
+      required:
+        - description
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: false
+    MovieDataResponse:
+      required:
+        - data
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+      additionalProperties: false
+    MovieQueryResponse:
+      required:
+        - data
+        - pagination
+        - sorting
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false
+    Pagination:
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      additionalProperties: false
+    QueryRequest:
+      required:
+        - pagination
+        - sorting
+      type: object
+      properties:
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false
+    Sorting:
+      required:
+        - direction
+        - field
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/SortingDirection'
+        field:
+          type: string
+      additionalProperties: false
+    SortingDirection:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+      x-enumNames:
+        - ASCENDING
+        - DESCENDING
+      x-enum-varnames:
+        - ASCENDING
+        - DESCENDING
+    Svenjas:
+      required:
+        - age
+        - id
+        - nachname
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nachname:
+          type: string
+        age:
+          type: integer
+          format: int32
+      additionalProperties: false
+    SvenjasDataResponse:
+      required:
+        - data
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Svenjas'
+      additionalProperties: false
+    SvenjasQueryResponse:
+      required:
+        - data
+        - pagination
+        - sorting
+        - success
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Svenjas'
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false

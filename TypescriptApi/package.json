@@ -1,0 +1,26 @@
+{
+    "name": "typescript-api",
+    "version": "0.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+      "/dist"
+    ],
+    "scripts": {
+      "clear-model": "node ./script/rm.js ./src/model",
+      "generate-yaml": "dotnet run --project ../Server/Server.csproj --swaggeronly ../TypescriptApi/swagger.yaml",
+      "generate-openapi-model": "openapi-generator-cli generate -i ./swagger.yaml -o ./src -g typescript-angular --global-property models --additional-properties=fileNaming=kebab-case,stringEnums=true",
+      "generate-index": "node ./script/generateIndex.js ./src/model",
+      "generate-model": "npm run clear-model && npm run generate-yaml && npm run generate-openapi-model && npm run generate-index",
+      "build": "npm run generate-model && tsc --build"
+    },
+    "private": true,
+    "dependencies": {
+        "rxjs": "~7.8.0",
+        "tslib": "^2.3.0"
+    },
+    "devDependencies": {
+        "@openapitools/openapi-generator-cli": "^2.5.2",
+        "typescript": "^4.9.5"
+    }
+}

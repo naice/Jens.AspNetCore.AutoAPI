@@ -1,0 +1,266 @@
+openapi: 3.0.1
+info:
+  title: Server
+  version: '1.0'
+paths:
+  /AutoAPI/MovieCreateOrUpdate:
+    post:
+      tags:
+        - Generic Create or Update Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/ActorCreateOrUpdate:
+    post:
+      tags:
+        - Generic Create or Update Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/CastCreateOrUpdate:
+    post:
+      tags:
+        - Generic Create or Update Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/MovieDelete:
+    post:
+      tags:
+        - Generic Delete Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/ActorDelete:
+    post:
+      tags:
+        - Generic Delete Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/CastDelete:
+    post:
+      tags:
+        - Generic Delete Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Cast'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/MovieQuery:
+    post:
+      tags:
+        - Generic Query Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/ActorQuery:
+    post:
+      tags:
+        - Generic Query Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+  /AutoAPI/CastQuery:
+    post:
+      tags:
+        - Generic Query Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    Actor:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      additionalProperties: false
+    QueryRequest:
+      required:
+        - pagination
+        - sorting
+      type: object
+      properties:
+        sorting:
+          $ref: '#/components/schemas/Sorting'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        filter:
+          type: string
+      additionalProperties: false
+    Cast:
+      required:
+        - actorId
+        - id
+        - movieId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+          format: uuid
+        movieId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    Movie:
+      required:
+        - description
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: false
+    Pagination:
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+      additionalProperties: false
+    Sorting:
+      required:
+        - direction
+        - field
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/SortingDirection'
+        field:
+          type: string
+      additionalProperties: false
+    SortingDirection:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+      x-enumNames:
+        - ASCENDING
+        - DESCENDING
+      x-enum-varnames:
+        - ASCENDING
+        - DESCENDING
