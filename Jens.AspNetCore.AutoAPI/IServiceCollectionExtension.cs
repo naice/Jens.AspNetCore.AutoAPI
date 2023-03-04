@@ -28,41 +28,41 @@ public static class IServiceCollectionExtension
     public static IEntityControllerConfigBuilderSelector CreateDefaultSelector(IDbContextProvider contextProvider)
         => new EntityControllerBuilderByAttributeSelector()
             .With(new ByAttribute(
-                    new EntityQueryControllerConfigBuilder(contextProvider, EntityQueryControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithQueryAttribute)))
+                new EntityQueryControllerConfigBuilder(contextProvider, EntityQueryControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithQueryAttribute)))
             .With(new ByAttribute(
-                    new EntityCreateControllerConfigBuilder(contextProvider, EntityCreateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithCreateAttribute)))
+                new EntityCreateControllerConfigBuilder(contextProvider, EntityCreateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithCreateAttribute)))
             .With(new ByAttribute(
-                    new EntityListCreateControllerConfigBuilder(contextProvider, EntityListCreateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithCreateListAttribute)))
+                new EntityListCreateControllerConfigBuilder(contextProvider, EntityListCreateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithCreateListAttribute)))
             .With(new ByAttribute(
-                    new EntityCreateOrUpdateControllerConfigBuilder(contextProvider, EntityCreateOrUpdateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithCreateOrUpdateAttribute)))
+                new EntityCreateOrUpdateControllerConfigBuilder(contextProvider, EntityCreateOrUpdateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithCreateOrUpdateAttribute)))
             .With(new ByAttribute(
-                    new EntityListCreateOrUpdateControllerConfigBuilder(contextProvider, EntityListCreateOrUpdateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithCreateOrUpdateListAttribute)))
+                new EntityListCreateOrUpdateControllerConfigBuilder(contextProvider, EntityListCreateOrUpdateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithCreateOrUpdateListAttribute)))
             .With(new ByAttribute(
-                    new EntityUpdateControllerConfigBuilder(contextProvider, EntityUpdateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithUpdateAttribute)))
+                new EntityUpdateControllerConfigBuilder(contextProvider, EntityUpdateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithUpdateAttribute)))
             .With(new ByAttribute(
-                    new EntityListUpdateControllerConfigBuilder(contextProvider, EntityListUpdateControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithUpdateListAttribute)))
+                new EntityListUpdateControllerConfigBuilder(contextProvider, EntityListUpdateControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithUpdateListAttribute)))
             .With(new ByAttribute(
-                    new EntityDeleteControllerConfigBuilder(contextProvider, EntityDeleteControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithDeleteAttribute)))
+                new EntityDeleteControllerConfigBuilder(contextProvider, EntityDeleteControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithDeleteAttribute)))
             .With(new ByAttribute(
-                    new EntityListDeleteControllerConfigBuilder(contextProvider, EntityListDeleteControllerConfigBuilder.ACTION),
-                    typeof(WithAllAttribute),
-                    typeof(WithDeleteListAttribute)));
+                new EntityListDeleteControllerConfigBuilder(contextProvider, EntityListDeleteControllerConfigBuilder.ACTION),
+                typeof(WithAllAttribute),
+                typeof(WithDeleteListAttribute)));
 
     public static void AddAutoAPIControllers(this IServiceCollection services, IDbContextProvider contextProvider, Assembly[] scanAssemblies, Action<AutoAPIConfiguration>? configure)
     {
@@ -72,6 +72,10 @@ public static class IServiceCollectionExtension
             selector
         );
         configure?.Invoke(config);
+        if (!config.EntityControllerConfigBuilderSelector.All.Any()) 
+        {
+            throw new InvalidOperationException();
+        }
         var autoAPIBuilder = new EntityControllerConfigsBuilder(scanAssemblies, selector);
         var configs = autoAPIBuilder.CreateControllerConfigs();
 

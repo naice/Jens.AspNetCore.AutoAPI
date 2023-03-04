@@ -5,19 +5,6 @@ public record AuthorizationConfig(
     string? Roles = null, 
     string? AuthenticationSchemes = null);
 
-public class ActionRouteConfig : IActionRouteConfig
-{
-    public string Route { get; }
-
-    public AuthorizationConfig[]? AuthorizationConfigs { get; }
-
-    public ActionRouteConfig(string route, AuthorizationConfig[]? authorizationConfigs)
-    {
-        Route = route;
-        AuthorizationConfigs = authorizationConfigs;
-    }
-}
-
 public interface IActionRouteConfig
 {
     string Route { get; }

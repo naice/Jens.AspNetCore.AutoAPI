@@ -13,12 +13,4 @@ public static class ObjectExtensions
 
         return target;
     }
-
-    public static Target CloneInto<Target>(this object obj) where Target : class
-    {
-        if (CloneInto(obj, typeof(Target)) is not Target result)
-            throw new ArgumentException(nameof(obj));
-
-        return result;
-    }
 }

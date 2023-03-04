@@ -36,12 +36,6 @@ public class EntityControllerConfigsBuilder
 
         foreach (var routeType in GetEntityTypeRoutes())
         {
-            var configs = BuildConfigs(routeType);
-            if (!configs.Any())
-            {
-                // TODO: Maybe log this?
-                // route type detected but yielded no configuration.
-            }
             result.AddRange(BuildConfigs(routeType));
         }
         return result;

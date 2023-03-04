@@ -23,9 +23,7 @@ public class EntityControllerRouteConvention : IControllerModelConvention
         if (actionRouteConfig == null)
             return;
         var controllerActionName = nameof(IEntityControllerAction<object>.ControllerAction);
-        var controllerAction = controllerModel.Actions.FirstOrDefault(a => a.ActionName == controllerActionName);
-        if (controllerAction == null)
-            throw new InvalidOperationException($"Could not find {controllerActionName} on configured controller {controllerModel.ControllerType}");
+        var controllerAction = controllerModel.Actions.First(a => a.ActionName == controllerActionName);
         controllerAction.Selectors.Clear();
         var selectorModel = new SelectorModel
         {
@@ -35,7 +33,7 @@ public class EntityControllerRouteConvention : IControllerModelConvention
             new HttpMethodActionConstraint(new [] { "POST"})
         );
 
-        actionRouteConfig.AuthorizationConfigs.ForAll(authCfg => 
+        actionRouteConfig.AuthorizationConfigs?.ToList().ForEach(authCfg => 
             selectorModel.EndpointMetadata.Add(
                 new AuthorizeAttribute()
                 { 

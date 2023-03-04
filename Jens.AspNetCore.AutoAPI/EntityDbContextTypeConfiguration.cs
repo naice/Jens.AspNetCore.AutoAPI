@@ -17,14 +17,14 @@ public class EntityDbContextTypeConfiguration<TDefaultDbContext> : IDbContextPro
         where TDbContext : DbContext
         where TEntity : class, IEntity
     {
-        _entityToDbContextMap.Add(typeof(TDbContext), typeof(TEntity));
+        _entityToDbContextMap.Add(typeof(TEntity), typeof(TDbContext));
         return this;
     }
 
     public Type GetDbContext(Type entityType)
     {
-        if (!_entityToDbContextMap.ContainsKey(entityType))
+        if (!EntityToDbContextMap.ContainsKey(entityType))
             return DefaultDbContext;
-        return _entityToDbContextMap[entityType];
+        return EntityToDbContextMap[entityType];
     }
 }

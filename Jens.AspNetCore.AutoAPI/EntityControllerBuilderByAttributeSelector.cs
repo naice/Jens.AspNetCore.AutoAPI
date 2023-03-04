@@ -23,7 +23,7 @@ public class EntityControllerBuilderByAttributeSelector : IEntityControllerConfi
         var attributeTypes = routeType.GetCustomAttributes(false)
             .Select(attr => attr.GetType());
 
-        return _byAttributes
+        return ByAttributes
             .Where((byAttr) => 
                 byAttr.AttributeTypes.Any((attr) => attributeTypes.Contains(attr)))
             .Select((byAttr) => 
