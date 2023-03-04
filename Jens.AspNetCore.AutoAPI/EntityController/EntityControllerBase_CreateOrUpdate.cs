@@ -6,7 +6,6 @@ public abstract partial class EntityControllerBase
         where TEntity : class, IEntity
     {
         var dbSet = context.Set<TEntity>();
-        
         if (dbSet.Where(x => x.Id == item.Id).Any())
         {
             dbSet.Update(item);

@@ -1,22 +1,22 @@
 namespace Jens.AspNetCore.AutoAPI;
 
-public class EntityListCreateOrUpdateControllerConfigBuilder : IControllerConfigBuilder
+public class EntityListCreateOrUpdateControllerConfigBuilder : IEntityControllerConfigBuilder
 {
-    public const string ACTION = "CreateList";
+    public const string ACTION = "CreateOrUpdateList";
     private readonly IDbContextProvider _dbContextProvider;
-
-    public EntityListCreateOrUpdateControllerConfigBuilder(IDbContextProvider dbContextProvider)
+    public string ActionName { get; set; }
+    public EntityListCreateOrUpdateControllerConfigBuilder(IDbContextProvider dbContextProvider, string actionName)
     {
         _dbContextProvider = dbContextProvider;
+        ActionName = actionName;
     }
     public EntityControllerConfig? BuildControllerConfig(TypeInfo routeType)
     {
-        if (routeType.GetCustomAttribute<WithCreateOrUpdateListAttribute>() == null) return null;
         var entityType = routeType;
         var authConfigs = routeType.CreateActionRouteConfig();
         var route = entityType.TransformRoute(
             routeType.GetRoute(),
-            ACTION
+            ActionName
         );
         var dbContextType = _dbContextProvider.GetDbContext(routeType);        
         var responseType = typeof(DataResponse<>).MakeGenericType(entityType);

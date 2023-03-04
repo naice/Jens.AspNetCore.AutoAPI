@@ -1,6 +1,6 @@
 namespace Jens.AspNetCore.AutoAPI;
 
-public interface IControllerConfigBuilder
+public interface IEntityControllerConfigBuilder
 {
     EntityControllerConfig? BuildControllerConfig(TypeInfo routeType);
 }

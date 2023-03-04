@@ -2,9 +2,14 @@ using Jens.AspNetCore.AutoAPI.Abstractions;
 
 namespace Models;
 
+/*
+
+    Demo of how REST APIs are defined. 
+
+*/
+
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
-[WithQCUD]
-[WithCreateOrUpdateList]
+[WithAllAttribute]
 public class Movie : IEntity
 {
     public Guid Id { get; set; }
@@ -13,9 +18,7 @@ public class Movie : IEntity
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
-[WithCreate]
-[WithQuery]
-[WithDelete]
+[WithAllAttribute]
 public class Actor : IEntity
 {
     public Guid Id { get; set; }
@@ -23,12 +26,21 @@ public class Actor : IEntity
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
-[WithQCUD]
-[WithCreateOrUpdateList]
+[WithAllAttribute]
 public class Cast : IEntity
 {
     public Guid Id { get; set; }
     public Guid ActorId { get; set; }
     public Guid MovieId { get; set; }
+}
+
+[AutoAPIRoute("/AutoAPI/[Entity][Action]")]
+[WithAllAttribute]
+public class Sample : IEntity
+{
+    public Guid Id { get; set; }
+    public Guid? NullableGuid { get; set; }
+    public DateTime? NullableDateTime { get; set; }
+    public DateTime DateTime { get; set; }
 }
 

@@ -7,13 +7,13 @@ namespace Test;
 
 public class EntityCreateIntegrationTest : AutoAPIIntegrationTestBase
 {
-    public EntityCreateIntegrationTest(WebApplicationFactory<Program> factory) : base(factory)
+    public EntityCreateIntegrationTest(CustomWebApplicationFactory<Program> factory) : base(factory)
     {
 
     }
 
     [Fact]
-    public async Task Ensure_EntityCreate()
+    public async Task Ensure_EntityCreate_Succeeds()
     {
         var entity = await CreateActorShouldSucceed( 
             new Models.Actor() {
@@ -28,6 +28,20 @@ public class EntityCreateIntegrationTest : AutoAPIIntegrationTestBase
                 Name = "Nameasdf"
             }, 
             EntityCreateControllerConfigBuilder.ACTION);
+        responseConflict.StatusCode.Should().Be(HttpStatusCode.BadRequest, responseConflict.Model?.Message);
+        responseConflict.Model!.Data.Should().BeEmpty();
+        responseConflict.Model.Message.Should().NotBeNullOrEmpty();
+        responseConflict.Model.Success.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Ensure_EntityCreateList_Succeeds()
+    {
+        var actors = await CreateActorsShouldSucceed(5);
+        // create controller should not update!
+        var responseConflict = await Post<Models.Actor, DataResponse<Models.Actor>>(
+            actors,
+            EntityListCreateControllerConfigBuilder.ACTION);
         responseConflict.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         responseConflict.Model!.Data.Should().BeEmpty();
         responseConflict.Model.Message.Should().NotBeNullOrEmpty();

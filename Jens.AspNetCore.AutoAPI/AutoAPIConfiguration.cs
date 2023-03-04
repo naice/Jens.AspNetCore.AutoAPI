@@ -3,11 +3,11 @@ namespace Jens.AspNetCore.AutoAPI;
 public class AutoAPIConfiguration
 {
     public IDbContextProvider DbContextProvider { get; set; }
-    public List<IControllerConfigBuilder> ControllerConfigBuilders { get; } = new List<IControllerConfigBuilder>();
+    public IEntityControllerConfigBuilderSelector EntityControllerConfigBuilderSelector { get; set; }
 
-    public AutoAPIConfiguration(IDbContextProvider dbContextProvider, params IControllerConfigBuilder[] builders)
+    public AutoAPIConfiguration(IDbContextProvider dbContextProvider, IEntityControllerConfigBuilderSelector entityControllerConfigBuilderSelector)
     {
         DbContextProvider = dbContextProvider;
-        ControllerConfigBuilders.AddRange(builders);
+        EntityControllerConfigBuilderSelector = entityControllerConfigBuilderSelector;
     }
 }

@@ -3,12 +3,12 @@ namespace Jens.AspNetCore.AutoAPI;
 public class EntityControllerConfigsBuilder
 {
     private readonly Assembly[] _scanAssemblies;
-    private readonly IControllerConfigBuilder[] _configBuilders;
+    private readonly IEntityControllerConfigBuilderSelector _entityControllerConfigBuilderSelector;
 
-    public EntityControllerConfigsBuilder(Assembly[] scanAssemblies, IControllerConfigBuilder[] configBuilders)
+    public EntityControllerConfigsBuilder(Assembly[] scanAssemblies, IEntityControllerConfigBuilderSelector entityControllerConfigBuilderSelector)
     {
         _scanAssemblies = scanAssemblies;
-        _configBuilders = configBuilders;
+        _entityControllerConfigBuilderSelector = entityControllerConfigBuilderSelector;
     }
 
     public IEnumerable<TypeInfo> GetEntityTypeRoutes()
@@ -23,7 +23,8 @@ public class EntityControllerConfigsBuilder
 
     public IEnumerable<EntityControllerConfig> BuildConfigs(TypeInfo routeType)
     {
-        return _configBuilders
+        return _entityControllerConfigBuilderSelector
+            .Select(routeType)
             .Select(builder => builder.BuildControllerConfig(routeType))
             .Where(x => x != null)
             .ToArray()!;
@@ -35,6 +36,12 @@ public class EntityControllerConfigsBuilder
 
         foreach (var routeType in GetEntityTypeRoutes())
         {
+            var configs = BuildConfigs(routeType);
+            if (!configs.Any())
+            {
+                // TODO: Maybe log this?
+                // route type detected but yielded no configuration.
+            }
             result.AddRange(BuildConfigs(routeType));
         }
         return result;

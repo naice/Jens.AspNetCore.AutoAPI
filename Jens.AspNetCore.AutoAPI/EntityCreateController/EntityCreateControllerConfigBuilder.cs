@@ -1,22 +1,23 @@
 namespace Jens.AspNetCore.AutoAPI;
 
-public class EntityCreateControllerConfigBuilder : IControllerConfigBuilder
-{
+public class EntityCreateControllerConfigBuilder : IEntityControllerConfigBuilder
+{    
     public const string ACTION = "Create";
     private readonly IDbContextProvider _dbContextProvider;
+    public string ActionName { get; set; }
 
-    public EntityCreateControllerConfigBuilder(IDbContextProvider dbContextProvider)
+    public EntityCreateControllerConfigBuilder(IDbContextProvider dbContextProvider, string actionName)
     {
         _dbContextProvider = dbContextProvider;
+        ActionName = actionName;
     }
     public EntityControllerConfig? BuildControllerConfig(TypeInfo routeType)
     {
-        if (routeType.GetCustomAttribute<WithCreateAttribute>() == null) return null;
         var entityType = routeType;
         var authConfigs = routeType.CreateActionRouteConfig();
         var route = entityType.TransformRoute(
             routeType.GetRoute(),
-            ACTION
+            ActionName
         );
         var dbContextType = _dbContextProvider.GetDbContext(routeType);
         

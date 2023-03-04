@@ -1,25 +1,23 @@
 namespace Jens.AspNetCore.AutoAPI;
 
-public class EntityCreateOrUpdateControllerConfigBuilder : IControllerConfigBuilder
+public class EntityCreateOrUpdateControllerConfigBuilder : IEntityControllerConfigBuilder
 {
     public const string ACTION = "CreateOrUpdate";
-
     private readonly IDbContextProvider _dbContextProvider;
+    public string ActionName { get; set; }
 
-    public EntityCreateOrUpdateControllerConfigBuilder(IDbContextProvider dbContextProvider)
+    public EntityCreateOrUpdateControllerConfigBuilder(IDbContextProvider dbContextProvider, string actionName)
     {
         _dbContextProvider = dbContextProvider;
+        ActionName = actionName;
     }
     public EntityControllerConfig? BuildControllerConfig(TypeInfo routeType)
     {
-        if (routeType.GetCustomAttribute<WithQCUDAttribute>() == null &&
-            routeType.GetCustomAttribute<WithCreateOrUpdateAttribute>() == null)
-            return null;
         var entityType = routeType;
         var authConfigs = routeType.CreateActionRouteConfig();
         var route = entityType.TransformRoute(
             routeType.GetRoute(),
-            ACTION
+            ActionName
         );
         var dbContextType = _dbContextProvider.GetDbContext(routeType);
         

@@ -23,8 +23,6 @@ public sealed class WithDeleteAttribute : Attribute { }
 [AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 public sealed class WithDeleteListAttribute : Attribute { }
 
-/// <summary>
-/// AutoAPI will create a route With [Q]uery [C]reate or [U]pdate and [D]elete.
-/// </summary>
+
 [AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-public sealed class WithQCUDAttribute : Attribute { }
+public sealed class WithAllAttribute : Attribute { }

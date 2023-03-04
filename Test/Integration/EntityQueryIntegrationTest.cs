@@ -5,7 +5,7 @@ namespace Test;
 
 public class EntityQueryIntegrationTest : AutoAPIIntegrationTestBase
 {
-    public EntityQueryIntegrationTest(WebApplicationFactory<Program> factory) : base(factory)
+    public EntityQueryIntegrationTest(CustomWebApplicationFactory<Program> factory) : base(factory)
     {
 
     }
@@ -13,8 +13,8 @@ public class EntityQueryIntegrationTest : AutoAPIIntegrationTestBase
     [Fact]
     public async Task Ensure_EntityQuery_Order_Filter_Pagination_Sort_Succeed()
     {
-        await CreateActors(5, "XYZ");
-        await CreateActors(5, "name");
+        await CreateActorsShouldSucceed(5, "XYZ");
+        await CreateActorsShouldSucceed(5, "name");
 
         const string filter = "startswith(name, 'name')";
         var sorting = new Sorting() {
@@ -44,6 +44,6 @@ public class EntityQueryIntegrationTest : AutoAPIIntegrationTestBase
         result.Data.Should().NotBeNull();
         result.Data.Should().HaveCount(2);
         result.Data[0].Name.Should().Be("name1");
-        result.Data[1].Name.Should().Be("name0");
+        result.Data[1].Name.Should().Be("name0");        
     }
 }
