@@ -5,6 +5,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <Authors>Jens Marchewka (im.naice@googlemail.com)</Authors>
+    <Description>Generates a REST API based on Model defintions.</Description>
+    <Copyright>Jens Marchewka (im.naice@googlemail.com) 2023</Copyright>
+    <PackageProjectUrl>https://github.com/naice/Jens.AspNetCore.AutoAPI</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryType>GIT</RepositoryType>
+    <License>MIT</License>
+    <RepositoryUrl>https://github.com/naice/Jens.AspNetCore.AutoAPI.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
