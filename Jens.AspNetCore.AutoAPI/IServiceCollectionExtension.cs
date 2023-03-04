@@ -29,12 +29,20 @@ public static class IServiceCollectionExtension
     {
         var config = new AutoAPIConfiguration(
             contextProvider,
+            // Query
             new EntityQueryControllerConfigBuilder(contextProvider),
+            // Create
             new EntityCreateControllerConfigBuilder(contextProvider),
-            new EntityCreateOrUpdateControllerConfigBuilder(contextProvider),
-            new EntityDeleteControllerConfigBuilder(contextProvider),
             new EntityListCreateControllerConfigBuilder(contextProvider),
-            new EntityListCreateOrUpdateControllerConfigBuilder(contextProvider)
+            // CreateOrUpdate
+            new EntityCreateOrUpdateControllerConfigBuilder(contextProvider),
+            new EntityListCreateOrUpdateControllerConfigBuilder(contextProvider),
+            // Update
+            new EntityUpdateControllerConfigBuilder(contextProvider),
+            new EntityListUpdateControllerConfigBuilder(contextProvider),
+            // Delte
+            new EntityDeleteControllerConfigBuilder(contextProvider),
+            new EntityListDeleteControllerConfigBuilder(contextProvider)
         );
         configure?.Invoke(config);
         var autoAPIBuilder = new EntityControllerConfigsBuilder(scanAssemblies, config.ControllerConfigBuilders.ToArray());
