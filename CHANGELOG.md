@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.2.0) (2023-3-5)
+
+### Features
+
+* **new-key-strategy:** KeyAttribute is now used to identify Keys on a Model. Multiple keys support. ([997bb47](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/997bb477c7e97f56928bc367ca5e0e0f22c936b4))
+
+### Other
+
+* Merge branch 'feat/newKeyStrategy' ([a9f8f22](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/a9f8f22da6d6b7029f18f14a59eae74c0d24c851))
+
 <a name="0.1.0"></a>
 ## [0.1.0](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.1.0) (2023-3-4)
 
