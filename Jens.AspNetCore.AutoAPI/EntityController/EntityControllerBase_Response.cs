@@ -3,7 +3,7 @@ namespace Jens.AspNetCore.AutoAPI;
 public abstract partial class EntityControllerBase
 {
     public static TResponse CreateDataSuccessResponse<TResponse, TEntity>(bool success, TEntity entity)
-        where TEntity : class, IEntity
+        where TEntity : class
         where TResponse : DataResponse<TEntity>, new()
     {
         var response = new TResponse();
@@ -14,7 +14,7 @@ public abstract partial class EntityControllerBase
     }
 
     public static TResponse CreateDataSuccessResponse<TResponse, TEntity>(bool success, IEnumerable<TEntity> entities)
-        where TEntity : class, IEntity
+        where TEntity : class
         where TResponse : DataResponse<TEntity>, new()
     {
         var response = new TResponse();
@@ -25,7 +25,7 @@ public abstract partial class EntityControllerBase
     }
 
     public static TResponse CreateQueryResponse<TResponse, TEntity>(IQueryable<TEntity> query, QueryRequest request) 
-        where TEntity : class, IEntity
+        where TEntity : class
         where TResponse : QueryResponse<TEntity>
     {
         query = query.ApplyQuery(request.Filter, request.Pagination, request.Sorting);

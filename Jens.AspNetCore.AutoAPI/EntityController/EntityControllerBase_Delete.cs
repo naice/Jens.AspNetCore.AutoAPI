@@ -10,7 +10,7 @@ public abstract partial class EntityControllerBase
     }
 
     public static async Task ListDeleteAndSave<TEntity>(DbContext context, IEnumerable<TEntity> entities)
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         foreach (var entity in entities)
         {

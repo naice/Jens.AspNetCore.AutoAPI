@@ -2,7 +2,7 @@ namespace Jens.AspNetCore.AutoAPI;
 
 public class EntityQueryController<TContext, TEntity, TResponse> : EntityControllerBase, IEntityControllerAction<QueryRequest>
     where TContext : DbContext
-    where TEntity : class, IEntity
+    where TEntity : class
     where TResponse : QueryResponse<TEntity>
 {
     private readonly TContext _dbContext;

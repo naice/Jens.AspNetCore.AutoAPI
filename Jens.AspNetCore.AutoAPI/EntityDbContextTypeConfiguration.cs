@@ -15,7 +15,7 @@ public class EntityDbContextTypeConfiguration<TDefaultDbContext> : IDbContextPro
 
     public EntityDbContextTypeConfiguration<TDefaultDbContext> With<TDbContext, TEntity>()
         where TDbContext : DbContext
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         _entityToDbContextMap.Add(typeof(TEntity), typeof(TDbContext));
         return this;

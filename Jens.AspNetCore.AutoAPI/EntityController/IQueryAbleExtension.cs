@@ -42,13 +42,13 @@ public static class IQueryableExtension
         return query.Skip((int)(pagination.Page * pagination.PageSize)).Take((int)pagination.PageSize);
     } 
 
-    public static IQueryable<T> ApplyODataFilter<T>(this IQueryable<T> data, string filterString) where T : class, IEntity
+    public static IQueryable<T> ApplyODataFilter<T>(this IQueryable<T> data, string filterString) where T : class
     {
         ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
         builder.EnableLowerCamelCase();
         var entityType = typeof(T).GetTypeInfo();
         var entitySetConfig = builder.EntitySet<T>(entityType.Name);
-        entitySetConfig.EntityType.HasKey(x => x.Id);
+        entitySetConfig.ConfigureKeys();
 
         ODataQueryContext context = new ODataQueryContext(builder.GetEdmModel(), typeof(T), new ODataPath());
         ODataQueryOptionParser queryOptionParser = new ODataQueryOptionParser(
@@ -62,7 +62,7 @@ public static class IQueryableExtension
     }
 
     public static IQueryable<TData> ApplyQuery<TData>(this IQueryable<TData> query, string? filter, Pagination pagination, Sorting sorting)
-        where TData : class, IEntity
+        where TData : class
     {
         if (!string.IsNullOrEmpty(filter))
         {

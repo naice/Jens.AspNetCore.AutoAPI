@@ -16,9 +16,7 @@ public class EntityControllerConfigsBuilder
         return _scanAssemblies
             .SelectMany(asm => asm.GetTypes())
             .Select(type => type.GetTypeInfo())
-            .Where(tifo => 
-                tifo.IsAssignableTo(typeof(IEntity)) && 
-                tifo.GetCustomAttribute<AutoAPIRouteAttribute>() != null);
+            .Where(tifo => tifo.GetCustomAttribute<AutoAPIRouteAttribute>() != null);
     }
 
     public IEnumerable<EntityControllerConfig> BuildConfigs(TypeInfo routeType)

@@ -2,7 +2,7 @@ namespace Jens.AspNetCore.AutoAPI;
 
 public class EntityListUpdateController<TContext, TEntity, TResponse> : EntityControllerBase, IEntityControllerAction<TEntity[]>
     where TContext : DbContext
-    where TEntity : class, IEntity
+    where TEntity : class
     where TResponse : DataResponse<TEntity>, new()
 {
     private readonly TContext _dbContext;
