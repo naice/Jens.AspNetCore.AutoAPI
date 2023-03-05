@@ -128,6 +128,54 @@ public abstract class AutoAPIIntegrationTestBase
         res.Model.Success.Should().BeFalse();
     }
 
+    public async Task<TEntity[]> CreateModelsShouldSucceed<TEntity>(IEnumerable<TEntity> models)
+    {
+        var arr = models.ToArray();
+        var res = await Post<TEntity, DataResponse<TEntity>>(
+            arr, 
+            EntityListCreateControllerConfigBuilder.ACTION);
+        res.StatusCode.Should().Be(HttpStatusCode.OK, res.Model?.Message);
+        res.Model.Should().NotBeNull();
+        res.Model!.Message.Should().BeNull();
+        res.Model.Success.Should().BeTrue();
+        res.Model.Data.Should().NotBeNull();
+        res.Model.Data.Should().HaveCount(arr.Length);
+        return res.Model.Data!.ToArray();
+    }
+
+    public async Task<TEntity[]> UpdateModelsShouldSucceed<TEntity>(IEnumerable<TEntity> models)
+    {
+        var arr = models.ToArray();
+        var res = await Post<TEntity, DataResponse<TEntity>>(
+            arr, 
+            EntityListUpdateControllerConfigBuilder.ACTION);
+
+        res.StatusCode.Should().Be(HttpStatusCode.OK, res.Model?.Message);
+        res.Model.Should().NotBeNull();
+        res.Model!.Message.Should().BeNull();
+        res.Model.Success.Should().BeTrue();
+        res.Model.Data.Should().NotBeNull();
+        res.Model.Data.Should().HaveCount(arr.Length);
+        return res.Model.Data!.ToArray();
+    }
+
+    public async Task<TEntity[]> DeleteModelsShouldSucceed<TEntity>(IEnumerable<TEntity> models)
+    {
+        var arr = models.ToArray();
+        var res = await Post<TEntity, DataResponse<TEntity>>(
+            arr, 
+            EntityListDeleteControllerConfigBuilder.ACTION);
+
+        res.StatusCode.Should().Be(HttpStatusCode.OK, res.Model?.Message);
+        res.StatusCode.Should().Be(HttpStatusCode.OK, res.Model?.Message);
+        res.Model.Should().NotBeNull();
+        res.Model!.Message.Should().BeNull();
+        res.Model.Success.Should().BeTrue();
+        res.Model.Data.Should().NotBeNull();
+        res.Model.Data.Should().HaveCount(arr.Length);
+        return res.Model.Data!.ToArray();
+    }
+
     public async Task<Models.Actor> CreateActorShouldSucceed(Models.Actor actor)
     {
         var res = await Post<Models.Actor, DataResponse<Models.Actor>>(

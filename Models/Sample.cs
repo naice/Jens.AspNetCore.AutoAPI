@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Jens.AspNetCore.AutoAPI.Abstractions;
 
 namespace Models;
@@ -10,8 +11,9 @@ namespace Models;
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
 [WithAllAttribute]
-public class Movie : IEntity
+public class Movie
 {
+    [Key]
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -19,25 +21,30 @@ public class Movie : IEntity
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
 [WithAllAttribute]
-public class Actor : IEntity
+public class Actor
 {
+    [Key]
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
 [WithAllAttribute]
-public class Cast : IEntity
+public class Cast
 {
-    public Guid Id { get; set; }
+    [Key]
     public Guid ActorId { get; set; }
+    [Key]
     public Guid MovieId { get; set; }
+
+    public string Value { get; set; } = string.Empty;
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
 [WithAllAttribute]
-public class Sample : IEntity
+public class Sample
 {
+    [Key]
     public Guid Id { get; set; }
     public Guid? NullableGuid { get; set; }
     public DateTime? NullableDateTime { get; set; }

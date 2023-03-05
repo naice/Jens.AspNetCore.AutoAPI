@@ -10,7 +10,7 @@ public class TouchModels
         var a2 = actor.Name;
         var cast = new Models.Cast();
         var c1 = cast.ActorId;
-        var c2 = cast.Id;
+        var c2 = cast.Value;
         var c3 = cast.MovieId;
         var movie = new Models.Movie();
         var m1 = movie.Description;

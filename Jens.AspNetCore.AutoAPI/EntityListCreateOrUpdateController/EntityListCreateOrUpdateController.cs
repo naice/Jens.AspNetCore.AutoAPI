@@ -3,7 +3,7 @@ namespace Jens.AspNetCore.AutoAPI;
 [Tags("Generic Create or Update List Controller")]
 public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : EntityControllerBase, IEntityControllerAction<TEntity[]>
     where TContext : DbContext
-    where TEntity : class, IEntity
+    where TEntity : class
     where TResponse : DataResponse<TEntity>, new()
 {
     private readonly TContext _dbContext;

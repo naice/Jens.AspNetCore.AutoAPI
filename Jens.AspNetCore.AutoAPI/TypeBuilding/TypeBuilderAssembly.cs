@@ -2,7 +2,6 @@ using System.Reflection.Emit;
 
 namespace Jens.AspNetCore.AutoAPI;
 
-// TODO: Refactor.
 public static class TypeBuilderAssembly
 {
 	public static Lazy<AssemblyName> DynamicAssemblyName
@@ -17,12 +16,32 @@ public static class TypeBuilderAssembly
 		=> new Lazy<ModuleBuilder>(()
 			=> DynamicAssembly.Value.DefineDynamicModule(DynamicAssemblyName.Value.Name!));
 
+    private readonly static Dictionary<string, Type> _builtPropertyProxies = new Dictionary<string, Type>();
+    private readonly static object _builtPropertyProxiesLock = new object();
+
+    public static Type BuildOrGetPropertyProxy(this Type type, IEnumerable<PropertyInfo> properties)
+    {
+        string className = type.FullName + "PropertyProxy";
+        lock(_builtPropertyProxiesLock)
+        {
+            if (_builtPropertyProxies.ContainsKey(className))
+                return _builtPropertyProxies[className];            
+            var module = TypeBuilderAssembly.Module.Value;
+            TypeBuilder typeBuilder = module.DefineType(className, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.Serializable);
+
+            foreach (var keyProp in properties)
+                typeBuilder.DefineField(keyProp.Name, keyProp.PropertyType, FieldAttributes.Public);
+            
+            var newType = typeBuilder.CreateType();
+            return _builtPropertyProxies[className] = newType;
+        }
+    }
+
     public static void CreatePassThroughConstructors(this TypeBuilder builder, Type baseType)
     {
         foreach (var constructor in baseType.GetConstructors()) {
             var parameters = constructor.GetParameters();
             if (parameters.Length > 0 && parameters.Last().IsDefined(typeof(ParamArrayAttribute), false)) {
-                //throw new InvalidOperationException("Variadic constructors are not supported");
                 continue;
             }
 
@@ -61,7 +80,6 @@ public static class TypeBuilderAssembly
         }
     }
 
-
     private static CustomAttributeBuilder[] BuildCustomAttributes(IEnumerable<CustomAttributeData> customAttributes)
     {
         return customAttributes.Select(attribute => {
@@ -72,66 +90,5 @@ public static class TypeBuilderAssembly
             var namedFieldValues = attribute.NamedArguments.Where(a => a.MemberInfo is FieldInfo).Select(a => a.TypedValue.Value).ToArray();
             return new CustomAttributeBuilder(attribute.Constructor, attributeArgs, namedPropertyInfos, namedPropertyValues, namedFieldInfos, namedFieldValues);
         }).ToArray();
-    }
-}
-
-public class ControllerTypeProxyBuilder
-{
-	public Type Type { get; }
-	public Lazy<TypeBuilder> TypeBuilder { get; }
-	public Type ProxyType => TypeBuilder.Value.CreateType();
-
-    public ControllerTypeProxyBuilder(Type type) : this(type, "Proxy")
-	{
-		
-	}
-	
-	public ControllerTypeProxyBuilder(Type type, string typeSuffix)
-	{
-		Type = type;
-		TypeBuilder = new Lazy<TypeBuilder>(() 
-			=> {
-				var typeBuilder = TypeBuilderAssembly.Module.Value.DefineType(
-					Type.Name + typeSuffix,
-					TypeAttributes.Public | TypeAttributes.Sealed,
-					Type);
-				typeBuilder.CreatePassThroughConstructors(Type);
-				return typeBuilder;
-			});
-	}
-	
-	public ControllerTypeProxyBuilder WithTagsAttribute(params string[] tags)
-	{
-		var typeBuilder = TypeBuilder.Value;
-		var attribType = typeof(TagsAttribute);
-		var attribCtorInfo = attribType.GetConstructors().First();
-		var attrBuilder = new CustomAttributeBuilder(attribCtorInfo, new object[] { tags });
-		typeBuilder.SetCustomAttribute(attrBuilder);
-		
-		return this;
-	}
-    
-    public ControllerTypeProxyBuilder WithDefaultProducesResponseTypeAttributes(Type responseType)
-    {
-        return 
-            WithProducesResponseTypeAttribute(responseType, StatusCodes.Status200OK).
-            WithProducesResponseTypeAttribute(typeof(BadRequestResponse), StatusCodes.Status400BadRequest);
-    }
-    
-
-    public ControllerTypeProxyBuilder WithProducesResponseTypeAttribute(Type responseType, int statusCode)
-    {
-		var typeBuilder = TypeBuilder.Value;
-		var attribType = typeof(ProducesResponseTypeAttribute);
-		var attribCtorInfo = attribType.GetConstructors().Where(c => {
-            var parameters = c.GetParameters();
-            if (parameters.Length != 2) return false;
-            return 
-                parameters[0].ParameterType == typeof(Type) &&
-                parameters[1].ParameterType == typeof(int);
-        }).First();
-		var attrBuilder = new CustomAttributeBuilder(attribCtorInfo, new object[] { responseType, statusCode });
-		typeBuilder.SetCustomAttribute(attrBuilder);
-        return this;
     }
 }

@@ -3,10 +3,10 @@ namespace Jens.AspNetCore.AutoAPI;
 public abstract partial class EntityControllerBase
 {
     public static async Task CreateOrUpdate<TEntity>(DbContext context, TEntity item) 
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         var dbSet = context.Set<TEntity>();
-        if (dbSet.Where(x => x.Id == item.Id).Any())
+        if (dbSet.Where(item.BuildKeyEqualityExpression()).Any())
         {
             dbSet.Update(item);
         }
@@ -17,14 +17,14 @@ public abstract partial class EntityControllerBase
     }
 
     public static async Task CreateOrUpdateAndSave<TEntity>(DbContext context, TEntity item) 
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         await CreateOrUpdate<TEntity>(context, item);
         await context.SaveChangesAsync();
     }
     
     public static async Task ListCreateOrUpdateAndSave<TEntity>(DbContext context, IEnumerable<TEntity> entities)
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         foreach (var entity in entities)
         {

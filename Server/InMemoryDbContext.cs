@@ -1,3 +1,4 @@
+using Jens.AspNetCore.AutoAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -24,5 +25,11 @@ public class InMemoryDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
     {   
         optionsBuilder.UseInMemoryDatabase(_contextName);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Models.Cast>().ConfigureKeys();
     }
 }
