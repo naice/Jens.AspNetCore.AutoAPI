@@ -15,13 +15,17 @@ services.AddAutoAPIControllers<InMemoryDbContext>(typeof(Models.Movie).Assembly)
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c => c.WithAutoAPIDefaults());
 
+// Add Auth mock for integration tests.
+services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
+    .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.AuthenticationScheme, options => { });
+
 var app = builder.Build();
 // If we want to only build our swagger.yaml. 
 if (app.TryRunSwaggerOutputOnly())
     return; // exit server.
 
-// This hangs in the default exception handler so our API specs dont mess up.
-app.UseExceptionHandler(Jens.AspNetCore.AutoAPI.ErrorController.ROUTE);
+// This hangs in the default exception middleware so our API specs dont mess up.
+app.UseAutoAPI();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,16 +9,21 @@ namespace Jens.AspNetCore.AutoAPI;
 
 public static class SwaggerExtensions
 {
+    public const string SWAGGERONLY_OPTION = "swaggeronly";
+
     public static bool TryRunSwaggerOutputOnly(this IHost app, string documentName = "v1")
     {
-        if (!Environment.GetCommandLineArgs().TryGetCommand("--swaggeronly", out var path) || string.IsNullOrEmpty(path))
+        var config = app.Services.GetRequiredService<IConfiguration>();
+        var path = config[SWAGGERONLY_OPTION];
+        if (string.IsNullOrEmpty(path))
             return false;
-
         var logger = app.Services.GetRequiredService<ILogger>();
         logger.LogInformation($"Generating swagger file: {path}");
         var swaggerProvider = app.Services.GetRequiredService<ISwaggerProvider>();
         var swaggerDocument = swaggerProvider.GetSwagger(documentName);
         path = Environment.ExpandEnvironmentVariables(path);
+        var dir = Path.GetDirectoryName(path);
+        if (dir != null) Directory.CreateDirectory(dir);
         using var streamWriter = File.CreateText(path);
         var writer = new OpenApiYamlWriter(streamWriter);
         swaggerDocument.SerializeAsV3(writer);

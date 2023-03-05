@@ -29,6 +29,7 @@ public class Actor
 }
 
 [AutoAPIRoute("/AutoAPI/[Entity][Action]")]
+[AutoAPIAuthorization(Roles: "test", AuthenticationSchemes: "Test")]
 [WithAllAttribute]
 public class Cast
 {

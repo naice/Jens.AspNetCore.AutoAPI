@@ -1,9 +1,9 @@
 namespace Test;
 
-public class TouchModels
+public class Touch
 {
     [Fact]
-    public void Touch()
+    public void TouchAll()
     {
         var actor = new Models.Actor();
         var a1 = actor.Id;
@@ -21,5 +21,8 @@ public class TouchModels
         var s2 = sample.Id;
         var s3 = sample.NullableDateTime;
         var s4 = sample.NullableGuid;
+
+        var context = new Server.InMemoryDbContext();
+        context.Dispose();
     }
 }
