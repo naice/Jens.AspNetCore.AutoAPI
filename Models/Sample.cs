@@ -51,4 +51,3 @@ public class Sample
     public DateTime? NullableDateTime { get; set; }
     public DateTime DateTime { get; set; }
 }
-

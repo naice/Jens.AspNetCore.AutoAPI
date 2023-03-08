@@ -57,14 +57,14 @@ public static class TypeBuilderAssembly
                     parameterBuilder.SetConstant(parameter.RawDefaultValue);
                 }
 
-                foreach (var attribute in BuildCustomAttributes(parameter.GetCustomAttributesData())) {
-                    parameterBuilder.SetCustomAttribute(attribute);
-                }
+                // foreach (var attribute in BuildCustomAttributes(parameter.GetCustomAttributesData())) {
+                //     parameterBuilder.SetCustomAttribute(attribute);
+                // }
             }
 
-            foreach (var attribute in BuildCustomAttributes(constructor.GetCustomAttributesData())) {
-                ctor.SetCustomAttribute(attribute);
-            }
+            // foreach (var attribute in BuildCustomAttributes(constructor.GetCustomAttributesData())) {
+            //     ctor.SetCustomAttribute(attribute);
+            // }
 
             var emitter = ctor.GetILGenerator();
             emitter.Emit(OpCodes.Nop);

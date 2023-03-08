@@ -78,7 +78,11 @@ public static class IServiceCollectionExtension
         }
         var autoAPIBuilder = new EntityControllerConfigsBuilder(scanAssemblies, selector);
         var configs = autoAPIBuilder.CreateControllerConfigs();
-
+        services.AddScoped<IInterceptorProvider, InterceptorProvider>();
+        foreach (var interceptor in autoAPIBuilder.GetInterceptors())
+        {
+            services.AddScoped(interceptor.ServiceType, interceptor.ImplementationType);
+        }
         services.AddMvc(options => options.Conventions.Add(new EntityControllerRouteConvention(configs)))
                 .ConfigureApplicationPartManager(a => a.FeatureProviders.Add(new EntityControllerFeatureProvider(configs)));
     }

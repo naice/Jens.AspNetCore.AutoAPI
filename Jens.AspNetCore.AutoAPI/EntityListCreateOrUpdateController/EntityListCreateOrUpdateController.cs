@@ -7,9 +7,12 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
     where TResponse : DataResponse<TEntity>, new()
 {
     private readonly TContext _dbContext;
-    public EntityListCreateOrUpdateController(TContext dbContext)
+    private readonly IInterceptorProvider _interceptorProvider;
+
+    public EntityListCreateOrUpdateController(TContext dbContext, IInterceptorProvider interceptorProvider)
     {
         _dbContext = dbContext;
+        _interceptorProvider = interceptorProvider;
     }
 
     public async Task<IActionResult> ControllerAction([FromBody] TEntity[] entities)
@@ -18,8 +21,52 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
         {
             throw new ArgumentNullException(nameof(entities), "Controller was called with malformed entity.");
         }
+        var itemCreateInterceptor = new Lazy<ICreateInterceptor<TContext, TEntity>?>(() 
+            => _interceptorProvider.GetInterceptor<ICreateInterceptor<TContext, TEntity>>());
+        var itemUpdateInterceptor = new Lazy<IUpdateInterceptor<TContext, TEntity>?>(() 
+            => _interceptorProvider.GetInterceptor<IUpdateInterceptor<TContext, TEntity>>());
         
-        await ListCreateOrUpdateAndSave(_dbContext, entities);
+        var dbSet = _dbContext.Set<TEntity>();
+        var any = false;
+        foreach (var entity in entities)
+        {
+            var updateInterceptor = _interceptorProvider.GetInterceptor<IUpdateInterceptor<TContext, TEntity>>();
+            var context = new CRUDContext<TEntity, TContext>(_dbContext, entity);
+            bool? isUpdate = updateInterceptor?.IsUpdate == null ? null : await updateInterceptor.IsUpdate(context);
+            if (isUpdate == null)
+            {
+                isUpdate = dbSet.Where(entity.BuildKeyEqualityExpression()).Any();
+            }
+            
+            if (isUpdate.Value)
+            {
+                var intercepted = updateInterceptor?.BeforeUpdate == null ? null : await updateInterceptor.BeforeUpdate(context);
+                if (intercepted != null) return intercepted;
+                if (updateInterceptor?.Update == null || !await updateInterceptor.Update(context))
+                {
+                    dbSet.Update(entity);
+                }
+                intercepted = updateInterceptor?.AfterUpdate == null ? null : await updateInterceptor.AfterUpdate(context);
+                if (intercepted != null) return intercepted;
+            }
+            else
+            {
+                var interceptor = _interceptorProvider.GetInterceptor<ICreateInterceptor<TContext, TEntity>>();
+                var intercepted = interceptor?.BeforeCreate == null ? null : await interceptor.BeforeCreate(context);
+                if (intercepted != null) return intercepted;
+                if (interceptor?.Create == null || !await interceptor.Create(context))
+                {
+                    await dbSet.AddAsync(context.Entity);
+                }
+                intercepted = interceptor?.AfterCreate == null ? null : await interceptor.AfterCreate(context);
+                if (intercepted != null) return intercepted;
+            }
+            any = true;
+        }
+        
+        if (any)
+            await _dbContext.SaveChangesAsync();
+
         return Ok(CreateDataSuccessResponse<TResponse, TEntity>(true, entities));
     }
 }

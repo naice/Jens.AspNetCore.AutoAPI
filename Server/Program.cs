@@ -10,7 +10,8 @@ var services = builder.Services;
 // Create your db context
 services.AddScoped<InMemoryDbContext>();
 // Adds auto api controllers based on given assemblies.
-services.AddAutoAPIControllers<InMemoryDbContext>(typeof(Models.Movie).Assembly);
+services.AddAutoAPIControllers<InMemoryDbContext>(typeof(Models.Movie).Assembly, typeof(Program).Assembly);
+
 // Configure swagger
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(c => c.WithAutoAPIDefaults());

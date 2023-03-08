@@ -6,9 +6,12 @@ public class EntityCreateController<TContext, TEntity, TResponse> : EntityContro
     where TResponse : DataResponse<TEntity>, new()
 {
     private readonly TContext _dbContext;
-    public EntityCreateController(TContext dbContext)
+    private readonly IInterceptorProvider _interceptorProvider;
+
+    public EntityCreateController(TContext dbContext, IInterceptorProvider interceptorProvider)
     {
         _dbContext = dbContext;
+        _interceptorProvider = interceptorProvider;
     }
 
     public async Task<IActionResult> ControllerAction([FromBody] TEntity entity)
@@ -17,8 +20,18 @@ public class EntityCreateController<TContext, TEntity, TResponse> : EntityContro
         {
             throw new ArgumentNullException(nameof(entity), "Controller was called with malformed entity.");
         }
-        
-        await CreateAndSave(_dbContext, entity);
+        var dbSet = _dbContext.Set<TEntity>();
+        var context = new CRUDContext<TEntity, TContext>(_dbContext, entity);
+        var interceptor = _interceptorProvider.GetInterceptor<ICreateInterceptor<TContext, TEntity>>();
+        var intercepted = interceptor?.BeforeCreate == null ? null : await interceptor.BeforeCreate(context);
+        if (intercepted != null) return intercepted;
+        if (interceptor?.Create == null || !await interceptor.Create(context))
+        {
+            await dbSet.AddAsync(context.Entity);
+        }
+        intercepted = interceptor?.AfterCreate == null ? null : await interceptor.AfterCreate(context);
+        if (intercepted != null) return intercepted;
+        await _dbContext.SaveChangesAsync();
         return Ok(CreateDataSuccessResponse<TResponse, TEntity>(true, entity));
     }
 }

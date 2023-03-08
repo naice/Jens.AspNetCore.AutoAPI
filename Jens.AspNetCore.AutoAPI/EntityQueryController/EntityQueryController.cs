@@ -6,19 +6,30 @@ public class EntityQueryController<TContext, TEntity, TResponse> : EntityControl
     where TResponse : QueryResponse<TEntity>
 {
     private readonly TContext _dbContext;
-    public EntityQueryController(TContext dbContext)
+    private readonly IInterceptorProvider _interceptorProvider;
+
+    public EntityQueryController(TContext dbContext, IInterceptorProvider interceptorProvider)
     {
         _dbContext = dbContext;
+        _interceptorProvider = interceptorProvider;
     }
     
-    public Task<IActionResult> ControllerAction([FromBody] QueryRequest request)
+    public async Task<IActionResult> ControllerAction([FromBody] QueryRequest request)
     {
         if (request == null)
             throw new ArgumentNullException(nameof(request), "Controller was called with malformed entity.");
 
-        var data = _dbContext.Set<TEntity>().AsQueryable();
-        return Task.FromResult<IActionResult>(
-            Ok(CreateQueryResponse<TResponse, TEntity>(data, request))
-        );
+        var query = _dbContext.Set<TEntity>().AsQueryable();
+        var context = new QueryContext<TEntity, TContext>(_dbContext, typeof(TEntity), query, request);
+
+        var interceptor = _interceptorProvider.GetInterceptor<IQueryInterceptor<TContext, TEntity>>();
+        var intercepted = interceptor?.BeforeQuery == null ? null : await interceptor.BeforeQuery(context);
+        if (intercepted != null) return intercepted;
+        var interceptedQuery = interceptor?.Query == null ? null : await interceptor.Query(context);
+        query = interceptedQuery ?? query.ApplyQuery(request.Filter, request.Pagination, request.Sorting);
+        intercepted = interceptor?.AfterQuery == null ? null : await interceptor.AfterQuery(context);
+        if (intercepted != null) return intercepted;
+
+        return Ok(CreateQueryResponse<TResponse, TEntity>(query, request));
     }
 }
