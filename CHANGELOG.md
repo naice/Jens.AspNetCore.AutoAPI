@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.0"></a>
+## [0.3.0](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.3.0) (2023-3-8)
+
+### Features
+
+* **interception:** The first throw of interceptions, subject to change. ([732f2ab](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/732f2ab7131411d7db0618ae81f3135ec078861d))
+
+### Other
+
+* Added more tests. ([721edb6](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/721edb6604a85fef79e85578e786057cb3e37797))
+
 <a name="0.2.0"></a>
 ## [0.2.0](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.2.0) (2023-3-5)
 
