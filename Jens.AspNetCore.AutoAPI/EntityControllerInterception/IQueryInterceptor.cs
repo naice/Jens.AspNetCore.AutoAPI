@@ -23,7 +23,7 @@ public interface IQueryInterception<TEntity, TContext>
     where TEntity : class
 {
     Func<QueryContext<TEntity, TContext>, Task<IActionResult?>>? BeforeQuery { get; }
-    Func<QueryContext<TEntity, TContext>, Task<IQueryable<TEntity>>> Query { get; }
+    Func<QueryContext<TEntity, TContext>, Task<IQueryable<TEntity>>>? Query { get; }
     Func<QueryContext<TEntity, TContext>, Task<IActionResult?>>? AfterQuery { get; }
 }
 

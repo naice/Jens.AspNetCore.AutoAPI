@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Jens.AspNetCore.AutoAPI;
 
+public class SwaggerExtension {}
 public static class SwaggerExtensions
 {
     public const string SWAGGERONLY_OPTION = "swaggeronly";
@@ -17,7 +18,7 @@ public static class SwaggerExtensions
         var path = config[SWAGGERONLY_OPTION];
         if (string.IsNullOrEmpty(path))
             return false;
-        var logger = app.Services.GetRequiredService<ILogger>();
+        var logger = app.Services.GetRequiredService<ILogger<SwaggerExtension>>();
         logger.LogInformation($"Generating swagger file: {path}");
         var swaggerProvider = app.Services.GetRequiredService<ISwaggerProvider>();
         var swaggerDocument = swaggerProvider.GetSwagger(documentName);
