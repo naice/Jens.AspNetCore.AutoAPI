@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.2"></a>
+## [0.3.2](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.3.2) (2023-3-9)
+
+### Bug Fixes
+
+* only request dbset when needed. ([5946a10](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/5946a100efbacc970d3fa6d827cd8f77594ad224))
+
+### Other
+
+* Merge branch 'master' of github.com:naice/Jens.AspNetCore.AutoAPI ([b2cb611](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/b2cb611383d87090f4a48fdf78a6eba7c3205bc9))
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.3.1) (2023-3-8)
 
