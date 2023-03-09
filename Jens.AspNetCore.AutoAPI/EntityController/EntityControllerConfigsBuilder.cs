@@ -38,9 +38,11 @@ public class EntityControllerConfigsBuilder
         foreach (var type in _typeInfos.Value)
         {
             var interfaces = type.GetInterfaces();
-            var candidate = interfaces
-                .Where(ifc => ifc.IsGenericType)
-                .FirstOrDefault(ifc => {
+            var candidates = interfaces
+                .Where(ifc => 
+                {
+                    if (!ifc.IsGenericType) 
+                        return false;
                     var gtd = ifc.GetGenericTypeDefinition();
                     if (gtd == typeof(ICreateInterceptor<,>) || 
                         gtd == typeof(IUpdateInterceptor<,>) || 
@@ -50,10 +52,13 @@ public class EntityControllerConfigsBuilder
                     return false;
                 });
             
-            if (candidate == null)
+            if (!candidates.Any())
                 continue;
-            
-            yield return (candidate, type);
+
+            foreach (var candidate in candidates)
+            {
+                yield return (candidate, type);
+            }
         }
     }
 
