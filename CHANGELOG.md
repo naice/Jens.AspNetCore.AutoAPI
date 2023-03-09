@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.3.3"></a>
+## [0.3.3](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.3.3) (2023-3-9)
+
+### Bug Fixes
+
+* support multiple injector interfaces per class. NOTE: multiple instances are created. ([e0daadd](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/e0daaddac252cacae62175c50292cffdfa554b73))
+
+### Other
+
+* Merge branch 'master' of github.com:naice/Jens.AspNetCore.AutoAPI ([1967be4](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/commit/1967be4dbc58225e56a8dccadf505b82a6a7ab27))
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://www.github.com/naice/Jens.AspNetCore.AutoAPI/releases/tag/v0.3.2) (2023-3-9)
 
