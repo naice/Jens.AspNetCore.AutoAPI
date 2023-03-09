@@ -26,7 +26,6 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
         var itemUpdateInterceptor = new Lazy<IUpdateInterceptor<TContext, TEntity>?>(() 
             => _interceptorProvider.GetInterceptor<IUpdateInterceptor<TContext, TEntity>>());
         
-        var dbSet = _dbContext.Set<TEntity>();
         var any = false;
         foreach (var entity in entities)
         {
@@ -35,6 +34,7 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
             bool? isUpdate = updateInterceptor?.IsUpdate == null ? null : await updateInterceptor.IsUpdate(context);
             if (isUpdate == null)
             {
+                var dbSet = _dbContext.Set<TEntity>();
                 isUpdate = dbSet.Where(entity.BuildKeyEqualityExpression()).Any();
             }
             
@@ -44,6 +44,7 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
                 if (intercepted != null) return intercepted;
                 if (updateInterceptor?.Update == null || !await updateInterceptor.Update(context))
                 {
+                    var dbSet = _dbContext.Set<TEntity>();
                     dbSet.Update(entity);
                 }
                 intercepted = updateInterceptor?.AfterUpdate == null ? null : await updateInterceptor.AfterUpdate(context);
@@ -56,6 +57,7 @@ public class EntityListCreateOrUpdateController<TContext, TEntity, TResponse> : 
                 if (intercepted != null) return intercepted;
                 if (interceptor?.Create == null || !await interceptor.Create(context))
                 {
+                    var dbSet = _dbContext.Set<TEntity>();
                     await dbSet.AddAsync(context.Entity);
                 }
                 intercepted = interceptor?.AfterCreate == null ? null : await interceptor.AfterCreate(context);

@@ -6,14 +6,12 @@ public class QueryContext<TEntity, TContext>
 {
     public TContext DbContext { get; }
     public Type EntityType { get; }
-    public IQueryable<TEntity> Query { get; }
     public QueryRequest QueryRequest { get; }
 
-    public QueryContext(TContext dbContext, Type entityType, IQueryable<TEntity> query, QueryRequest queryRequest)
+    public QueryContext(TContext dbContext, Type entityType, QueryRequest queryRequest)
     {
         DbContext = dbContext;
         EntityType = entityType;
-        Query = query;
         QueryRequest = queryRequest;
     }
 }

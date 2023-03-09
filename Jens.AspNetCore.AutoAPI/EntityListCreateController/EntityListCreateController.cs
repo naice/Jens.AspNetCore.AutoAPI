@@ -21,7 +21,6 @@ public class EntityListCreateController<TContext, TEntity, TResponse> : EntityCo
             throw new ArgumentNullException(nameof(entities), "Controller was called with malformed entities.");
         }
         
-        var dbSet = _dbContext.Set<TEntity>();
         var itemCreateInterceptor = new Lazy<ICreateInterceptor<TContext, TEntity>?>(()
             => _interceptorProvider.GetInterceptor<ICreateInterceptor<TContext, TEntity>>());
         var any = false;
@@ -33,6 +32,7 @@ public class EntityListCreateController<TContext, TEntity, TResponse> : EntityCo
             if (intercepted != null) return intercepted;
             if (interceptor?.Create == null || !await interceptor.Create(context))
             {
+                var dbSet = _dbContext.Set<TEntity>();
                 await dbSet.AddAsync(context.Entity);
             }
             intercepted = interceptor?.AfterCreate == null ? null : await interceptor.AfterCreate(context);

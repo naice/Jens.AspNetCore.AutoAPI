@@ -29,9 +29,9 @@ public class EntityListUpdateController<TContext, TEntity, TResponse> : EntityCo
             var updateInterceptor = itemUpdateInterceptor.Value;
             var context = new CRUDContext<TEntity, TContext>(_dbContext, entity);
             bool? isUpdate = updateInterceptor?.IsUpdate == null ? null : await updateInterceptor.IsUpdate(context);
-            var dbSet = _dbContext.Set<TEntity>();
             if (isUpdate == null)
             {
+                var dbSet = _dbContext.Set<TEntity>();
                 isUpdate = dbSet.Where(entity.BuildKeyEqualityExpression()).Any();
             }
             
@@ -41,6 +41,7 @@ public class EntityListUpdateController<TContext, TEntity, TResponse> : EntityCo
                 if (intercepted != null) return intercepted;
                 if (updateInterceptor?.Update == null || !await updateInterceptor.Update(context))
                 {
+                    var dbSet = _dbContext.Set<TEntity>();
                     dbSet.Update(entity);
                 }
                 intercepted = updateInterceptor?.AfterUpdate == null ? null : await updateInterceptor.AfterUpdate(context);

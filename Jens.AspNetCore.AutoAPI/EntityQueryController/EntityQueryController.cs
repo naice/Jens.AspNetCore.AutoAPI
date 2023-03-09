@@ -18,15 +18,14 @@ public class EntityQueryController<TContext, TEntity, TResponse> : EntityControl
     {
         if (request == null)
             throw new ArgumentNullException(nameof(request), "Controller was called with malformed entity.");
-
-        var query = _dbContext.Set<TEntity>().AsQueryable();
-        var context = new QueryContext<TEntity, TContext>(_dbContext, typeof(TEntity), query, request);
-
+        
+        IQueryable<TEntity> query;
+        var context = new QueryContext<TEntity, TContext>(_dbContext, typeof(TEntity), request);
         var interceptor = _interceptorProvider.GetInterceptor<IQueryInterceptor<TContext, TEntity>>();
         var intercepted = interceptor?.BeforeQuery == null ? null : await interceptor.BeforeQuery(context);
         if (intercepted != null) return intercepted;
         var interceptedQuery = interceptor?.Query == null ? null : await interceptor.Query(context);
-        query = interceptedQuery ?? query.ApplyQuery(request.Filter, request.Pagination, request.Sorting);
+        query = interceptedQuery ?? _dbContext.Set<TEntity>().AsQueryable().ApplyQuery(request.Filter, request.Pagination, request.Sorting);
         intercepted = interceptor?.AfterQuery == null ? null : await interceptor.AfterQuery(context);
         if (intercepted != null) return intercepted;
 

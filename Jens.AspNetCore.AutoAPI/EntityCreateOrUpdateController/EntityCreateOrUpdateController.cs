@@ -23,9 +23,9 @@ public class EntityCreateOrUpdateController<TContext, TEntity, TResponse> : Enti
         var updateInterceptor = _interceptorProvider.GetInterceptor<IUpdateInterceptor<TContext, TEntity>>();
         var context = new CRUDContext<TEntity, TContext>(_dbContext, entity);
         bool? isUpdate = updateInterceptor?.IsUpdate == null ? null : await updateInterceptor.IsUpdate(context);
-        var dbSet = _dbContext.Set<TEntity>();
         if (isUpdate == null)
         {
+            var dbSet = _dbContext.Set<TEntity>();
             isUpdate = dbSet.Where(entity.BuildKeyEqualityExpression()).Any();
         }
         
@@ -35,6 +35,7 @@ public class EntityCreateOrUpdateController<TContext, TEntity, TResponse> : Enti
             if (intercepted != null) return intercepted;
             if (updateInterceptor?.Update == null || !await updateInterceptor.Update(context))
             {
+                var dbSet = _dbContext.Set<TEntity>();
                 dbSet.Update(entity);
             }
             intercepted = updateInterceptor?.AfterUpdate == null ? null : await updateInterceptor.AfterUpdate(context);
@@ -47,6 +48,7 @@ public class EntityCreateOrUpdateController<TContext, TEntity, TResponse> : Enti
             if (intercepted != null) return intercepted;
             if (interceptor?.Create == null || !await interceptor.Create(context))
             {
+                var dbSet = _dbContext.Set<TEntity>();
                 await dbSet.AddAsync(context.Entity);
             }
             intercepted = interceptor?.AfterCreate == null ? null : await interceptor.AfterCreate(context);
